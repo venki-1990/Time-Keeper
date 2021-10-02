@@ -1,7 +1,7 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'Loginpage.dart';
+import 'Signinpage.dart';
 void main()=>runApp(new MaterialApp(
   home: Myapp()
 ));
@@ -18,7 +18,7 @@ class _MyappState extends State<Myapp> {
     return MaterialApp(
      debugShowCheckedModeBanner: false,
       home: AnimatedSplashScreen(
-        duration: 2500, nextScreen:Login(),splash: Stack(
+        duration: 2500, nextScreen:SignIn(),splash: Stack(
         children: [
           Center(
             child: Text(
