@@ -1,10 +1,21 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled5/Dashboard.dart';
 import 'Signinpage.dart';
-void main()=>runApp(new MaterialApp(
-  home: Myapp()
-));
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    routes: <String , WidgetBuilder>{
+      '/nextscreen':(BuildContext context)=> NextScreen(),
+      '/SignIn':(BuildContext context)=> SignIn
+        ()
+    },
+      home: Myapp()));
+}
 class Myapp extends StatefulWidget {
   const Myapp({Key? key}) : super(key: key);
 
@@ -15,9 +26,9 @@ class Myapp extends StatefulWidget {
 class _MyappState extends State<Myapp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-     debugShowCheckedModeBanner: false,
-      home: AnimatedSplashScreen(
+    Firebase.initializeApp();
+    return
+      AnimatedSplashScreen(
         duration: 2500, nextScreen:SignIn(),splash: Stack(
         children: [
           Center(
@@ -32,11 +43,6 @@ class _MyappState extends State<Myapp> {
           )
         ],
       ),
-
-      ),
-
-
-
-    );
+     );
   }
 }
