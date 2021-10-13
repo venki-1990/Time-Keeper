@@ -4,29 +4,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
+import 'package:untitled5/Timerapp.dart';
 class NextScreen extends StatefulWidget {
   const NextScreen({Key? key}) : super(key: key);
-
   @override
   _NextScreenState createState() => _NextScreenState();
 }
-Future<void> signout() async {
-  (await GoogleSignIn().signOut());
-  return FirebaseAuth.instance.signOut();
-}
 class _NextScreenState extends State<NextScreen> {
-  static const duration=const Duration();
-  int secondsPassed=0;
-  bool isActive=false;
-  late final Timer timer;
-
-  void handleTick(){
-    if(isActive){
-      setState(() {
-        secondsPassed=secondsPassed+1;
-      });
-    }
+  @override
+  Future<void> inistate() async {
   }
   DateTime selectedDate=DateTime.now();
   Future<void>_selectedDate(BuildContext context )async{
@@ -49,67 +35,42 @@ class _NextScreenState extends State<NextScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    if(timer==null){
-      timer=Timer.periodic(duration, (Timer t) {
-        handleTick();
-      });
-    }
-    int seconds=secondsPassed %60;
-    int minutes=secondsPassed ~/60;
-    int hours=secondsPassed ~/(60*60);
     return Scaffold(
       appBar: AppBar(
         title: Text("Dashboard"),
         centerTitle: true,
       ),
       body: Container(
-        padding: EdgeInsets.all(20),
-        child: Center(
-          child: Row(
-            children:<Widget> [
-              LabelText(
-                label:"HRS",value:hours.toString().padLeft(2,'0')
-              ),
-              LabelText(
-                  label:"MIN",value:hours.toString().padLeft(2,'0')
-              ),
-              LabelText(
-                  label:"SEC",value:hours.toString().padLeft(2,'0')
-              ),
+        padding: EdgeInsets.only(left: 130),
+        child: Column(
+          children: [
               SizedBox(
-                height: 60,
-              ),
-              Container(
-                child: RaisedButton(
-                  color: Colors.pink,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-                  onPressed: (){
-                    setState(() {
-                      isActive=!isActive;
-                    });
-                  },
-                  child: Text(isActive?'STOP':'START'),
-                ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text("${selectedDate.day}/${selectedDate.month}/${selectedDate
-                      .year}"),
-                  OutlinedButton(
-                    onPressed: () {
-                      _selectedDate(context);
-                    },
-                    child: Text("Choose date",
-                      style: TextStyle(fontWeight: FontWeight.bold,),),
+                    height: 60,
                   ),
-                ],
+              Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text("${selectedDate.day}/${selectedDate.month}/${selectedDate
+                          .year}"),
+                      OutlinedButton(
+                        onPressed: () {
+                          _selectedDate(context);
+                        },
+                        child: Text("Choose date",
+                          style: TextStyle(fontWeight: FontWeight.bold,),),
+                      ),
+                      RaisedButton(onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>TimerApp()));
+                      },
+                        child: Text("Timer",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.blueAccent),),
+                      )
+                    ],
               ),
-            ],
-          ),
-        ),
-      ),
+
+          ],
+              ),
+    ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.lightBlueAccent,
         items: [
@@ -126,24 +87,8 @@ class _NextScreenState extends State<NextScreen> {
     );
   }
 }
-class LabelText extends StatelessWidget{
-  LabelText({required this.label,required this.value});
-  late final String label;
-  late final String value;
-  @override
-  Widget build(BuildContext context) {
 
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 5),
-      padding: EdgeInsets.all(20),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text("$value",style:TextStyle(color: Colors.white,fontSize: 55,fontWeight: FontWeight.bold),),
-          Text("$label",style:TextStyle(color: Colors.white70,fontSize: 55,fontWeight: FontWeight.bold),)
-        ],
-      ),
-    );
-  }
-}
+
+
+
 
